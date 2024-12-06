@@ -23,7 +23,8 @@ def aggiungiProvinceMancanti(dictProvinceRegioni):
         'bergamo': 'Lombardia',
         'biella': 'Piemonte',
         'bologna': 'Emilia-Romagna',
-        'bolzano': 'Trentino-Alto Adige',
+        #'bolzano': 'Trentino-Alto Adige',
+        'bolzano': 'pa_bolzano',
         'brescia': 'Lombardia',
         'brindisi': 'Puglia',
         'cagliari': 'Sardegna',
@@ -104,6 +105,7 @@ def aggiungiProvinceMancanti(dictProvinceRegioni):
         'torino': 'Piemonte',
         'trapani': 'Sicilia',
         'trento': 'Trentino-Alto Adige',
+        #'trento': 'pa_trento',
         'treviso': 'Veneto',
         'trieste': 'Friuli-Venezia Giulia',
         'udine': 'Friuli-Venezia Giulia',
@@ -164,7 +166,7 @@ def readFluDatasetInflucast(flu_file):
     
     initial_case_i = np.array([flu_init_dict.get(prov, 0) for prov in orderedPROV])
     #initial_case_e = np.zeros_like(initial_case_i)  # Supponiamo che non ci siano esposti inizialmente
-    initial_case_e = initial_case_i * (1 / 0.35) # supponiamo che il numero di esposti iniziali sia proporzionale al numero di infetti e alla durata del periodo asintomatico
+    initial_case_e = initial_case_i * (1 / 0.3) # supponiamo che il numero di esposti iniziali sia proporzionale al numero di infetti e alla durata del periodo asintomatico
     
 
     return nh, Whk, initial_case_i, initial_case_e, orderedPROV, flu_init_dict, flu_df, recent_flu_df
@@ -213,13 +215,13 @@ class parameters(): #parametri che dovremo variare
         #self.b = 0.02 # Tasso di contatto tra province con viaggi fortemente ridotti
         self.b = 0.09 # parametrò di mobilità
         
-        self.Lambda = np.array([1, 1.3, 1.2]) * (10**-8) * 1.1 # Tasso di trasmissione
+        self.Lambda = np.array([1, 1.3, 1.2]) * (10**-8) * 1 # Tasso di trasmissione
         #self.Nu = 0.1  # Tasso di infezione da esposto a infetto
         #self.Beta = 0.05  # I -> N
         #self.Gamma = 0.01  # Tasso di rimozione (guariti)
 
-        self.Nu = 0.35
-        self.Beta = 0.4 
+        self.Nu = 0.3
+        self.Beta = 0.3
         self.Gamma = 0.1
         self.alpha = np.array([1.0, 0.8, 0.9])  # Efficacia dell'autoisolamento: [giovani, anziani, anziani vaccinati]
         self.m = 19.77  # numero medio di contatti
