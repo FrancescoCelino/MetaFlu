@@ -200,14 +200,14 @@ def readFluDataset1():
     flu_init_dict = dict(zip(flu_init_df['provincia'], flu_init_df['numero_infetti']))
     initial_case_i = np.array([flu_init_dict.get(prov, 0) for prov in orderedPROV])
     #initial_case_e = np.zeros_like(initial_case_i)  # Supponiamo che non ci siano esposti inizialmente
-    initial_case_e = initial_case_i * (1 / 0.35) # supponiamo che il numero di esposti iniziali sia proporzionale al numero di infetti e alla durata del periodo asintomatico
+    initial_case_e = initial_case_i * (1 / 0.4) # supponiamo che il numero di esposti iniziali sia proporzionale al numero di infetti e alla durata del periodo asintomatico
     return nh, Whk, initial_case_i, initial_case_e, orderedPROV, flu_init_dict
 
 
 class parameters(): #parametri che dovremo variare
     def __init__(self, nh, Whk):
-        self.nh = nh
-        self.Whk = Whk
+        self.nh = nh # numero di persone nella comunità h
+        self.Whk = Whk # matrice pendolarismo fra province
         self.ai = np.array([0.149, 0.545, 0.545])  # Livelli di attività: [giovani, anziani, anziani vaccinati. Va preso il reciproco perché l'unità di misura è 1/days]
         #self.ai = np.array([1.0, 0.5, 0.5])
         self.eta = np.array([0.5, 0.25, 0.25])  # Proporzione di popolazione in ciascuna classe iniziale
@@ -215,7 +215,7 @@ class parameters(): #parametri che dovremo variare
         #self.b = 0.02 # Tasso di contatto tra province con viaggi fortemente ridotti
         self.b = 0.09 # parametrò di mobilità
         
-        self.Lambda = np.array([1, 1.3, 1.2]) * (10**-8) * 1 # Tasso di trasmissione
+        self.Lambda = np.array([1, 1.3, 1.2]) * (10**-2) * 1 # Tasso di trasmissione
         #self.Nu = 0.1  # Tasso di infezione da esposto a infetto
         #self.Beta = 0.05  # I -> N
         #self.Gamma = 0.01  # Tasso di rimozione (guariti)
@@ -223,5 +223,5 @@ class parameters(): #parametri che dovremo variare
         self.Nu = 0.3
         self.Beta = 0.3
         self.Gamma = 0.1
-        self.alpha = np.array([1.0, 0.8, 0.9])  # Efficacia dell'autoisolamento: [giovani, anziani, anziani vaccinati]
+        self.alpha = np.array([1.0, 0.8, 0.9])  # Efficacia dell'autoisolamento: [giovani, anziani, anziani vaccinati]. 1 indica no autoisolamento
         self.m = 19.77  # numero medio di contatti
